@@ -11,3 +11,4 @@ To enable the dtbo file on RaspberryPi:
   - copy gpio25-reset-key to /boot/overlays
   - modify /boot/config.txt and enable dtoverlay=gpio25-reset-key
 
+Copyright by BG5HHP, Credit to contributers of the linux world.
