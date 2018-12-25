@@ -46,19 +46,21 @@
 				status = "okay";
 
 				reset {
-					label = "reset";
+					label = "Reset Btn";
 					gpios = <&gpio 25 1>;
 					linux,code = <0x198>;
 				};
 
-				rfkill {
-					label = "Kill WiFi";
+				wlan {
+					label = "WLAN Btn";
 					gpios = <&gpio 24 1>;
+					linux,code = <238>;
 				};
 
-				gpio23 {
+				BTN_0 {
 					label = "gpio23";
 					gpios = <&gpio 23 1>;
+					linux,code = <0x100>;
 				};
 			};
 		};
