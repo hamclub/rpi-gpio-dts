@@ -1,4 +1,4 @@
-// Definitions for gpio-reset
+// Definitions for rpi-gpio-pins
 /dts-v1/;
 /plugin/;
 
@@ -10,7 +10,7 @@
 // note that GPIO3 has an external pullup on at least some boards).
 
 / {
-	compatible = "brcm,bcm2708";
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709", "brcm,bcm2710";
 
 	fragment@0 {
 		// Configure the gpio pin controller
@@ -22,10 +22,10 @@
 			// by a "pinctrl client", as is done below. See:
 			//   https://www.kernel.org/doc/Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
 			//   https://www.kernel.org/doc/Documentation/devicetree/bindings/pinctrl/brcm,bcm2835-gpio.txt
-			reset_button_pins: reset_button_pins {
-				brcm,pins = <25>; // gpio number
-				brcm,function = <0>; // 0 = input, 1 = output
-				brcm,pull = <2>; // 0 = none, 1 = pull down, 2 = pull up
+			rpi_gpio_pins: rpi_gpio_pins {
+				brcm,pins = <23 24 25>; // gpio number
+				brcm,function = <0 0 0>; // 0 = input, 1 = output
+				brcm,pull = <2 2 2>; // 0 = none, 1 = pull down, 2 = pull up
 			};
 		};
 	};
@@ -40,7 +40,7 @@
 				// Declare a single pinctrl state (referencing the one declared above) and name it
 				// default, so it is activated automatically.
 				pinctrl-names = "default";
-				pinctrl-0 = <&reset_button_pins>;
+				pinctrl-0 = <&rpi_gpio_pins>;
 
 				// Enable this device
 				status = "okay";
@@ -49,6 +49,16 @@
 					label = "reset";
 					gpios = <&gpio 25 1>;
 					linux,code = <0x198>;
+				};
+
+				rfkill {
+					label = "Kill WiFi";
+					gpios = <&gpio 24 1>;
+				};
+
+				gpio23 {
+					label = "gpio23";
+					gpios = <&gpio 23 1>;
 				};
 			};
 		};
