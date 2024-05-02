@@ -1,0 +1,30 @@
+// Definitions for gpio-reset
+/dts-v1/;
+/plugin/;
+//
+// This overlay uses GPIO13(PWML) and 12(PWMR) for PWM audio ouptput based on the doc
+// https://hackaday.io/project/9467-piboy-zero/log/35090-pi-zero-pwm-audio-device-tree-overlay
+// and
+// https://learn.adafruit.com/introducing-the-raspberry-pi-zero/audio-outputs
+//
+// compile with:
+//	dtc -@ -I dts -O dtb -o pwm-audio-pi-zero.dtb pwm-audio-pi-zero.dts
+//
+/ {
+	compatible = "brcm,bcm2708";
+
+	fragment@0 {
+		// Configure the gpio pin controller
+		target = <&gpio>;
+		__overlay__ {
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwm_audio_pins>;
+
+			pwm_audio_pins: pwm_audio_pins {
+				brcm,pins = <13 12>;   /* gpio no ('BCM' number) */
+				brcm,function = <4 4>; /* 0:in, 1:out, 2: alt5, 3: alt4, 4: alt0, 5: alt1, 6: alt2, 7: alt3 */
+				brcm,pull = <0 0>;     /* 2:up 1:down 0:none */
+			};
+		};
+	};
+};
